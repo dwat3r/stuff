@@ -1,4 +1,5 @@
 stuff
 =====
 
-These are short code snippets of my work
+These are short code snippets,
+and mandatory programs for university subjects.
