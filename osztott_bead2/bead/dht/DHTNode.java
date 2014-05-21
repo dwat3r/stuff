@@ -4,41 +4,49 @@ import java.net.*;
 import java.util.*;
 import java.io.*;
 
+//TODO REFACTOR!
 
 public class DHTNode{
 	public static void main(String[] args)
 	throws Exception
 	{
-		//a fonok cime
-    	Socket fonok = new Socket("localhost",65432);
-    	//kuldunk neki egy portszamot (ami parameter)
-    	int port = Integer.parseInt(args[0]);
-    	PrintWriter toFonok = new PrintWriter(fonok.getOutputStream());
-    	toFonok.println(port);
-    	//kapcs bont
-    	toFonok.flush();
-    	toFonok.close();
-    	fonok.close();
-        //inditjuk a szervert:
-        ServerSocket nodeListen = new ServerSocket(port);
-        //fogadjuk a kezdeti uzenetet:
-        //ah,fh,targets[] :mind int
-        Socket client = nodeListen.accept();
-        Scanner fromClient = new Scanner(client.getInputStream());
-        int ah = fromClient.nextInt();
-        int fh = fromClient.nextInt(); //fh az egyben a node IDja is
-        int[] fingertable = new int[16];
-        for(int i=0;i<16;++i)
-        {
-            fingertable[i] = fromClient.nextInt();
-        }
-        int[] fingerports = new int[16];
-        for(int i=0;i<16;++i)
-        {
-            fingerports[i] = fromClient.nextInt();
-        }
-        fromClient.close();
-        client.close();
+		//portszam kuldes a DHTMainnak.
+        //------------
+            //a fonok cime
+        	Socket fonok = new Socket("localhost",65432);
+        	//kuldunk neki egy portszamot (ami parameter)
+        	int port = Integer.parseInt(args[0]);
+        	PrintWriter toFonok = new PrintWriter(fonok.getOutputStream());
+        	toFonok.println(port);
+        	//kapcs bont
+        	toFonok.flush();
+        	toFonok.close();
+        	fonok.close();
+        //--------------
+        //adatok fogadasa a DHTMaintol:
+        //ah,fh,fingertable,fingerports.
+        //--------------
+            //inditjuk a szervert:
+            ServerSocket nodeListen = new ServerSocket(port);
+            //fogadjuk a kezdeti uzenetet:
+            //ah,fh,targets[] :mind int
+            Socket client = nodeListen.accept();
+            Scanner fromClient = new Scanner(client.getInputStream());
+            int ah = fromClient.nextInt();
+            int fh = fromClient.nextInt(); //fh az egyben a node IDja is
+            int[] fingertable = new int[16];
+            for(int i=0;i<16;++i)
+            {
+                fingertable[i] = fromClient.nextInt();
+            }
+            int[] fingerports = new int[16];
+            for(int i=0;i<16;++i)
+            {
+                fingerports[i] = fromClient.nextInt();
+            }
+            fromClient.close();
+            client.close();
+        //--------------
         //fogadja a kapcsolatokat,amik kuldhetnek:
         //upload <fajlnev>
         //<fajl tartalma soronkent>
