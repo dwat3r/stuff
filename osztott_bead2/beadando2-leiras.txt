@@ -1,0 +1,50 @@
+
+A beadandó második fázisában az első fázisban elkészített feladatot kell
+a következőknek megfelelően módosítani és kiegészíteni.
+
+----------------------------------------------
+
+A bead.dht csomagban készítsd el a StartDHT osztályt,
+amely a parancssori argumentumban megadott számú DHTNode-ot indít el
+párhuzamosan a 10000, 10001, ... portokkal.
+A DHTNode-ok működése csak annyiban változzon,
+hogy nem külön programként kell őket elindítani.
+
+A DHTNode-ok elindítása után a StartDHT osztály készítsen el egy RMI távoli objektumot,
+és jegyezze be az alapértelmezett porton (1099) elindított registry-be "dht" néven.
+A távoli objektum kezeléséhez szükséges programegységek szintén
+a bead.dht csomagba kerüljenek.
+
+A következő függvények legyenek elérhetőek a távoli objektumon:
+
+- List<String> lookup(String filename)
+A megadott nevű fájlt próbálja letölteni az elosztott rendszerből úgy,
+hogy az indítottak közül egy véletlenszerű DHTNode-hoz kapcsolódik.
+Amennyiben a fájl nem található a rendszerben, null-t adjon vissza,
+egyébként pedig a fájl sorait egy listában.
+
+- void upload(String filename, List<String> filecontent)
+Az első paraméter a fájl neve,
+a második paraméter pedig a feltölteni kívánt fájl sorait tartalmazó lista.
+Egy véletlenszerűen kiválasztott DHTNode-on keresztül tölti fel
+a megadott fájlt az elosztott rendszerbe.
+
+
+A bead.test nevű csomagban hozz létre egy DHTTest nevű osztályt,
+amely a következőképpen működik:
+
+  - parancssori argumentumként egy mappanevet kap
+
+  - kapcsolódjon a "dht" RMI szolgáltatáshoz
+
+  - sorra töltse fel a mappában található, 1 MB-nál kisebb méretű fájlokat
+  (feltételezhetjük, hogy csak szöveges állományok vannak a megadott mappában)
+  Jegyezze meg az első fájl nevét!
+
+  - hozzon létre egy "downloads" nevű mappát az aktuális könyvtárban,
+  töltse le a megjegyzett nevű fájlt az elosztott rendszerből
+  és a tartalmát írja ki egy megegyező nevű fájlba a downloads mappába
+
+  - próbálja a "foo.bar" nevű fájl letölteni a rendszerből
+  (ilyen nevű fájl ne legyen a mappában),
+  és ellenőrizze, hogy null-t kap-e eredményül
